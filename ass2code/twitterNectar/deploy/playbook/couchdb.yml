@@ -1,0 +1,46 @@
+---
+- name: Install CouchDB
+  #hosts: db
+  hosts: db
+  remote_user: ubuntu
+  become: yes
+  tasks:
+  - name: Install docker
+    apt: 
+      name: docker.io
+      state: present
+  - name: Copy the install script
+    copy:
+        src: ../scripts/couchdb.sh
+        dest: /home/ubuntu/couchdb.sh
+
+
+  - debug:
+      msg: "ansible_eth0.ipv4.address: {{ ansible_eth0.ipv4.address }}"
+
+  - name: Install couchdb, setup db account, bind 0.0.0.0, remove default db
+    command: "{{ item }}"
+    with_items:
+      - sh /home/ubuntu/couchdb.sh {{ ansible_eth0.ipv4.address }}
+  - debug:
+      msg: "ansible_eth0.ipv4.address: {{ ansible_eth0.ipv4.address }}"
+
+  - name: Copy the cluster installation script on master node
+    when: ansible_eth0.ipv4.address == groups['db'][0]
+    copy:
+          src: ../scripts/couchdb_cluster.sh
+          dest: /home/ubuntu/couchdb_cluster.sh
+
+  - name: Setup cluster on master node
+    when: ansible_eth0.ipv4.address == groups['db'][0]
+    command: "{{ item }}"
+    with_items:
+          - bash /home/ubuntu/couchdb_cluster.sh {{ groups['db'] | join(' ') }}
+  - debug:
+      msg: "ansible_eth0.ipv4.address: {{ groups['db'] | join(' ') }}"
+    #{{ groups['db'] | join(' ') }}
+
+
+
+
+

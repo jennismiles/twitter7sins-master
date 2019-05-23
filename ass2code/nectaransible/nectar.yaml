@@ -1,0 +1,20 @@
+#Shangyu Chen
+#specify role for nectar
+---
+- hosts: localhost
+#- hosts: 127.0.0.1
+
+#- hosts: remote
+#  connection: local
+#  become: yes
+#  become_user: root
+  vars_files:
+    - host_vars/nectar.yaml
+  gather_facts: true
+
+  roles:
+    - role: openstack-images
+    - role: openstack-instance
+#    - role: openstack-volume
+#    - role: openstack-security-group
+    

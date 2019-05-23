@@ -1,0 +1,22 @@
+password：ZTYwYzQwZTUyNDVkZmZh
+
+pip install --upgrade setuptools
+
+pip install python-openstackclient
+
+source /Users/chen/Desktop/study/COMP90024\ Cluster\ and\ Cloud\ Computing\ /ass2/ass2code/openrc.sh
+
+openstack help
+
+openstack help server
+
+#Controlling an instance
+openstack image list | grep NeCTAR
+
+openstack server create --flavor m1.small  --image 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 --key-name wifitrack  --security-group ssh ClientLaunchedInstance
+
+
+#snapshot
+openstack server image create --name ClientLaunchedSnapshot ClientLaunchedInstance
+
+openstack server create --flavor m1.small --image ClientLaunchedSnapshot --key-name wifitrack --security-group ssh CopyOfClientLaunchedInstance

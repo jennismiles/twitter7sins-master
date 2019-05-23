@@ -1,0 +1,79 @@
+---
+- name: Install and run havester
+  hosts: db
+  remote_user: ubuntu
+  become: yes
+  tasks:
+  - name: Install pip3
+    become: yes
+    apt:
+      name: python3-pip
+      state: latest
+
+  - name: Install couchdb
+    become: yes
+    pip:
+      executable: pip3
+      name: couchdb
+
+  - name: Install searchtweets
+    become: yes
+    pip:
+      executable: pip3
+      name: searchtweets
+
+
+
+  - name: Fetch the source code of the harvest
+    copy:
+      src: ../../harvest
+      dest: /home/ubuntu
+
+
+  - name: Run the harvester in Search mode
+    shell: nohup python3 /home/ubuntu/harvest/twe_test.py > /home/ubuntu/output.log 2>&1 &
+
+#  - name: Run the harvester in Search mode
+#    shell: nohup python3 /home/ubuntu/harvest/harvesttestzxl/twe_test.py > /home/ubuntu/output.log 2>&1 &
+
+
+#  - name: Run the harvester in Stream mode
+#    shell: nohup python /home/ubuntu/DonauTwitter/crawler/TwitterCrawler.py s > /home/ubuntu/s.log 2>&1 &
+#    git:
+#      repo: git@github.com:Menooker/DonauTwitter
+#      dest: /home/ubuntu/DonauTwitter
+#      accept_hostkey: yes
+#
+#  - name: Copy harvester config file
+#    copy:
+#      src: ../../crawler/config.json
+#      dest: /home/ubuntu/config.json
+#  - name: Install TwitterAPI, analysis tools and couchdb
+#    become: yes
+#    pip:
+#      name: TwitterAPI couchdb nltk vaderSentiment
+
+#  - name: Copy private key of the GitHub account
+#    copy:
+#      src: /home/menooker/github.key
+#      dest: /home/ubuntu/.ssh/id_rsa
+#      mode: 0700
+#      group: ubuntu
+#      owner: ubuntu
+#
+#  - name: Fetch the source code of the harvester
+#    git:
+#      repo: git@github.com:Menooker/DonauTwitter
+#      dest: /home/ubuntu/DonauTwitter
+#      accept_hostkey: yes
+#
+#  - name: Copy harvester config file
+#    copy:
+#      src: ../../crawler/config.json
+#      dest: /home/ubuntu/config.json
+#
+#  - name: Run the harvester in Search mode
+#    shell: nohup python /home/ubuntu/DonauTwitter/crawler/TwitterCrawler.py f > /home/ubuntu/f.log 2>&1 &
+#
+#  - name: Run the harvester in Stream mode
+#    shell: nohup python /home/ubuntu/DonauTwitter/crawler/TwitterCrawler.py s > /home/ubuntu/s.log 2>&1 &

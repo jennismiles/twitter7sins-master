@@ -1,0 +1,54 @@
+---
+- name: Deploy web
+  hosts: web
+  remote_user: ubuntu
+  become: yes
+  tasks:
+  - name: Install pip3
+    become: yes
+    apt:
+      name: python3-pip
+      state: latest
+
+  - name: Install couchdb
+    become: yes
+    pip:
+      executable: pip3
+      name: couchdb
+
+
+  - name: Install flask
+    become: yes
+    pip:
+      executable: pip3
+      name: flask
+
+  - name: Install pandas
+    become: yes
+    pip:
+      executable: pip3
+      name: pandas
+
+  - name: Fetch the source code of the harvest
+    copy:
+      src: ../../web
+      dest: /home/ubuntu
+
+  #- name: Run the harvester in Search mode
+  #  shell: nohup python3 /home/ubuntu/web/app.py > /home/ubuntu/output.log 2>&1 &e=latest
+
+
+
+  - name: Run the data_process
+    shell: nohup python3 /home/ubuntu/web/data_process.py > /home/ubuntu/output_data_process.log 2>&1 &e=latest
+
+  - name: Run the upload_design_doc
+    shell: nohup python3 /home/ubuntu/web/upload_design_doc.py > /home/ubuntu/output_upload_design_doc.log 2>&1 &e=latest
+
+  - name: Run the upload_design_doc
+    shell: nohup python3 /home/ubuntu/web/analysis_part1.py > /home/ubuntu/output_analysis_part1.log 2>&1 &e=latest
+
+  - name: Run the upload_design_doc
+    shell: nohup python3 /home/ubuntu/web/analysis_part2.py > /home/ubuntu/output_analysis_part2.log 2>&1 &e=latest
+  - name: Run the harvester in Search mode
+    shell: nohup python3 /home/ubuntu/web/app.py > /home/ubuntu/output.log 2>&1 &e=latest

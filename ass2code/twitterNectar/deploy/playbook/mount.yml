@@ -1,0 +1,46 @@
+---
+- name: install vim, curl, and mount volume
+  hosts: all
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: apt-get update
+    apt: update_cache=yes
+
+  - name: Install vim & curl
+    apt: name={{item}}
+    with_items:
+        - vim
+        - curl
+
+  - name: sudo mkfs.ext4 /dev/vdc
+    filesystem:
+      fstype: ext4
+      dev: /dev/vdc 
+  
+  - name: Create the directory
+    file:
+      path: /mntVolume
+      state: directory
+
+  - name: Mount
+    mount:
+      name: /mntVolume
+      src: /dev/vdc
+      fstype: ext4
+      state: mounted
+
+  - name: Change the permission of the mount directory
+    file:
+      path: /mntVolume
+      state: directory
+      mode: 0777
+      owner: ubuntu
+
+
+
+#  - name: Change the password
+#    shell: "{{item}}"
+#    with_items:
+#      - echo -e "cqmygysdss\ncqmygysdss" | sudo passwd ubuntu

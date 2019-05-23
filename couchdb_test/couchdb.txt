@@ -1,0 +1,13 @@
+https://www.tutorialspoint.com/couchdb/couchdb_quick_guide.htm
+
+http://docs.couchdb.org/en/latest/install/unix.html#installation-using-the-apache-couchdb-convenience-binary-packages
+
+http://127.0.0.1:5984
+
+127.0.0.1:5984/_utils
+
+https://blog.csdn.net/qq_21816375/article/details/80353268
+
+https://www.google.com.au/search?source=hp&ei=ZQ62XNW9A4Wb9QPswKqQCQ&q=couchDB+tutorial&btnK=Google+Search&oq=couchDB+tutorial&gs_l=psy-ab.3..0l6j0i22i10i30j0i22i30l3.1084.8387..8714...1.0..0.218.2955.0j17j1....3..0....1..gws-wiz.....0..0i13j0i13i30j0i13i10i30.3Vj0qQ2d-PU#btnK=Google%20Search&kpvalbx=1
+
+http://python.jobbole.com/87066/

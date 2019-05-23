@@ -1,0 +1,63 @@
+#Shangyu Chen
+#varibles for nectar
+# Common vars
+availability_zone: melbourne-qh2-uom
+
+#Volume
+#volumes:
+#  - vol_name: vol-1
+#    vol_size: 10
+#  - vol_name: vol-2
+#    vol_size: 10
+
+#Security group
+security_groups:
+  - name: ssh_ass2
+    description: "for ssh access"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  - name: http_ass2
+    description: "for HTTP access"
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+
+#Instance
+#instance_name: DataHarvest
+instance_image: 394a1b97-a8d3-4593-aab0-8156f0dfeeca
+#instance_key_name: wifitrack
+#instance_flavor: m1.small
+#uom.general.2c8g
+
+instances:
+  - instance_name: web
+    instance_group: \[web\]
+    instance_image: 394a1b97-a8d3-4593-aab0-8156f0dfeeca
+    instance_key_name: wifitrack
+    instance_flavor: m1.small
+    vol_name: vol-db3
+    vol_size: 10
+  - instance_name: db1
+    instance_group: \[db\]
+    instance_image: 394a1b97-a8d3-4593-aab0-8156f0dfeeca
+    instance_key_name: wifitrack
+    instance_flavor: m1.small
+    vol_name: vol-analysis
+    vol_size: 10
+  - instance_name: db2
+    instance_group: \[db\]
+    instance_image: 394a1b97-a8d3-4593-aab0-8156f0dfeeca
+    instance_key_name: wifitrack
+    instance_flavor: m1.small
+    vol_name: vol-db1
+    vol_size: 10
+  - instance_name: db3
+    instance_group: \[db\]
+    instance_image: 394a1b97-a8d3-4593-aab0-8156f0dfeeca
+    instance_key_name: wifitrack
+    instance_flavor: m1.small
+    vol_name: vol-db2
+    vol_size: 10

@@ -1,0 +1,43 @@
+---
+- name: Create an instance
+  os_server:
+    name: '{{ item.0.instance_name }}'
+    image: '{{ item.0.instance_image }}'
+    key_name: '{{ item.0.instance_key_name }}'
+    flavor: '{{ item.0.instance_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ sg_names }}'
+    volumes: '{{ item.1 }}'
+    #volumes: '{{ vol-1 }}'
+    auto_floating_ip: yes
+    wait: yes
+    timeout: 600
+    state: present
+  with_together:
+    - '{{ instances }}'
+    - '{{ os_vol_ids }}'
+  #loop: '{{ instances }}'
+  register: os_instance
+
+
+
+- debug:
+    msg: "Image name: {{ item.0.instance_name }} has been created. IP address is {{ item.1.openstack.public_v4 }}"
+  when:  item.1.openstack is defined
+  with_together:
+    - '{{ instances }}'
+    - '{{ os_instance.results }}'
+
+
+
+- name: Write into hosts
+  lineinfile:
+    path: hosts
+    insertafter: '{{ item.0.instance_group }} '
+    line: "{{ item.1.openstack.public_v4 }}"
+  when: item.1.openstack is defined
+  with_together:
+    - '{{ instances }}'
+    - '{{ os_instance.results }}'
+
+
